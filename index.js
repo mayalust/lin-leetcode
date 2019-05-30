@@ -1,5 +1,31 @@
-/* 168. Excel Sheet Column Title */
-let convertToTitle = function (n) {
+/* 168, Given a positive integer, return its corresponding column title as appear in an Excel sheet.
+
+For example:
+
+    1 -> A
+    2 -> B
+    3 -> C
+    ...
+    26 -> Z
+    27 -> AA
+    28 -> AB 
+    ...
+Example 1:
+
+Input: 1
+Output: "A"
+Example 2:
+
+Input: 28
+Output: "AB"
+Example 3:
+
+Input: 701
+Output: "ZY" */
+function convertToTitle(n) {
+    if (n == 0) {
+        return;
+    }
     let chars = [String.fromCharCode(65 + 25)],
         rs = [];
     for (let i = 0; i < 25; i++) {
@@ -11,13 +37,53 @@ let convertToTitle = function (n) {
         if (rest == 0) {
             n--;
         }
-        rs.push(chars[rest]);
+        rs.unshift(chars[rest]);
     }
     if (n > 0) {
         rs.unshift(chars[n]);
     }
     return rs.join("");
 };
-for (let i = 1; i < 100; i++) {
-    console.log(convertToTitle(i));
+/* 171. Excel Sheet Column Number
+Given a column title as appear in an Excel sheet, return its corresponding column number.
+
+For example:
+
+    A -> 1
+    B -> 2
+    C -> 3
+    ...
+    Z -> 26
+    AA -> 27
+    AB -> 28 
+    ...
+Example 1:
+
+Input: "A"
+Output: 1
+Example 2:
+
+Input: "AB"
+Output: 28
+Example 3:
+
+Input: "ZY"
+Output: 701 */
+function titleToNumber(s) {
+    let dics = {},
+        sum = 0;
+    if (!s) {
+        return
+    }
+    for (let i = 0; i < 26; i++) {
+        dics[String.fromCharCode(65 + i)] = i + 1;
+    }
+    for (let i = 0; i < s.length; i++) {
+        sum += Math.pow(26, i) * dics[s.charAt(s.length - i - 1)];
+    }
+    return sum;
+}
+module.exports = {
+    convertToTitle: convertToTitle,
+    titleToNumber: titleToNumber
 }
